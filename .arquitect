@@ -1,0 +1,9 @@
+{
+    "project.name":"name repo",
+    "project.description":"description repo",
+    "project.function":"name function lambda",
+    "project.lambda.name":"name lambda",
+    "project.lambda.event":"name event",
+    "project.lambda.path":"path endppoint",
+    "project.lambda.method":"method endpoint"
+}
