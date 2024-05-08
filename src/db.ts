@@ -14,17 +14,22 @@ export const AppDataSource = ({DB_HOST,DB_PORT,DB_USERNAME,DB_PASSWORD, DB_DATAB
     schema: "dbo"
 });
 
-export async function initializeDatabase(secretid:string): Promise<DataSource> {
+export async function initializeDatabase(secretid:string, connectionA:DataSource|null|undefined): Promise<DataSource> {
     const SM = new SecretsManager
     let accessDb = JSON.parse((await SM.getSecretValue({SecretId: secretid}).promise()).SecretString || "{}") as { username?: string, password?: string, engine?: string, host?: string, port?: string, dbname?: string };
     console.log("accessDb", accessDb);
-    const connection = AppDataSource({
-        DB_HOST: accessDb.host?? '',
-        DB_PORT: Number(accessDb.port?? 0),
-        DB_USERNAME: accessDb.username?? '',
-        DB_PASSWORD: accessDb.password?? '',
-        DB_DATABASE: accessDb.dbname?? ''
-    }, [Atencion]);
+    let connection;
+    if(connectionA){
+        connection = connectionA;    
+    }else{
+        connection = AppDataSource({
+            DB_HOST: accessDb.host?? '',
+            DB_PORT: Number(accessDb.port?? 0),
+            DB_USERNAME: accessDb.username?? '',
+            DB_PASSWORD: accessDb.password?? '',
+            DB_DATABASE: accessDb.dbname?? ''
+        }, [Atencion]);
+    }
     try {
         console.log("Initializing Data Source...");
         console.log("connection.isInitialized", connection.isInitialized);

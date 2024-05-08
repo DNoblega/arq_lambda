@@ -1,7 +1,8 @@
 {
     "project.name":"name repo",
     "project.description":"description repo",
-    "project.function":"name function lambda",
+    "project.function":"name function lambda for dev",
+    "project.function-prod":"name function lambda for prod",
     "project.lambda.name":"name lambda",
     "project.lambda.event":"name event",
     "project.lambda.path":"path endppoint",

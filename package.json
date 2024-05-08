@@ -6,8 +6,8 @@
   "scripts": {
     "build": "ncc build src/index.ts -o dist",
     "zip": "cd dist/ && bestzip ../dist.zip * && cd ../",
-    "deploy": "npm run build && npm run zip && aws lambda update-function-code --function-name <{{project.function}}> --zip-file fileb://dist.zip",
-    "create": "npm run build && npm run zip && aws lambda create-function --function-name <{{project.function}}> --zip-file fileb://dist.zip --handler index.handler --runtime nodejs18.x --role arn:aws:iam::894944500362:role/<role-name>",
+    "deploy": "npm run build && npm run zip && aws lambda update-function-code --function-name <{{project.function.prod}}> --zip-file fileb://dist.zip",
+    "deploy-prod": "npm run build && npm run zip && aws lambda update-function-code --function-name <{{project.function.prod}}> --zip-file fileb://dist.zip",
     "dev": "npm run build && sam local start-api --template sam.local.yaml",
     "dev-w": "npm watch 'npm run build' src -d 1000"
   },
@@ -31,6 +31,7 @@
   "dependencies": {
     "aws-sdk": "^2.1537.0",
     "mssql": "^10.0.2",
-    "typeorm": "^0.3.19"
+    "typeorm": "^0.3.19",
+    "zod": "^3.22.4"
   }
 }
