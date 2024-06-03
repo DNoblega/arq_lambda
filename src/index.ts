@@ -1,38 +1,41 @@
 import { APIGatewayEvent } from "aws-lambda";
 import { initializeDatabase } from "./db";
 import {z} from 'zod';
+import { DataSource } from "typeorm";
 
 export const handler = async (event: APIGatewayEvent) => {
   try {
+    let secretdb = process.env.SECRETDB? process.env.SECRETDB: "";
     //console.log("event", event);
     //get param in event
     //ejemplo de validacion de objeto de la request mediante zod
     const request = z.object({
-      atencionId: z.string().transform((val:string)=>val ? parseInt(val) : 0).refine(val:Number => val >= 1),
+      atencionId: z.string().transform((val:string)=>val ? parseInt(val) : 0).refine(val => val >= 1),
       userId: z.string()
     }).parse(event.queryStringParameters);
 
     let response = {
       estado:"OK"
     };
-  
-    db = await initializeDatabase('secret',db!);
-
+    
+    conexiondb = await initializeDatabase(secretdb,conexiondb!);
     //example error
     //throw new HttpError(400,"No se encontro la atencion");
   
     return genResponse(200,response);
   }catch (e) {
-    let response = {
-      estado:"NOK"
-    };
     let statusCode = 500;
+    let response = {
+      estado:"NOK",
+      codeStatus: statusCode
+    };
     if(e instanceof z.ZodError){
       statusCode = 400;
     }else if(e instanceof HttpError){
       statusCode = e.statusCode;
     }
     console.log("error", e);
+    response.codeStatus = statusCode;
     return genResponse(statusCode,response);
   }
   
@@ -43,7 +46,8 @@ class HttpError extends Error {
     super(message);
   }
 }
-let db;
+let conexiondb:DataSource;
+
 let genResponse =(statusCode:number, objResponse:Object)=>{
   return {
     statusCode: statusCode,

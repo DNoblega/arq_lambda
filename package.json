@@ -6,7 +6,7 @@
   "scripts": {
     "build": "ncc build src/index.ts -o dist",
     "zip": "cd dist/ && bestzip ../dist.zip * && cd ../",
-    "deploy": "npm run build && npm run zip && aws lambda update-function-code --function-name <{{project.function.prod}}> --zip-file fileb://dist.zip",
+    "deploy-dev": "npm run build && npm run zip && aws lambda update-function-code --function-name <{{project.function.dev}}> --zip-file fileb://dist.zip",
     "deploy-prod": "npm run build && npm run zip && aws lambda update-function-code --function-name <{{project.function.prod}}> --zip-file fileb://dist.zip",
     "dev": "npm run build && sam local start-api --template sam.local.yaml",
     "dev-w": "npm watch 'npm run build' src -d 1000"
