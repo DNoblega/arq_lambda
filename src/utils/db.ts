@@ -1,6 +1,6 @@
 import { SecretsManager } from "aws-sdk";
 import { BaseEntity, DataSource } from "typeorm";
-import { Atencion } from "./Atencion";
+import { Atencion } from "../Atencion";
 
 export const AppDataSource = ({DB_HOST,DB_PORT,DB_USERNAME,DB_PASSWORD, DB_DATABASE}:{DB_HOST:string,DB_PORT:number,DB_USERNAME:string,DB_PASSWORD:string, DB_DATABASE:string},entities:any[])=>
     new DataSource({

@@ -1,11 +1,13 @@
 import { APIGatewayEvent } from "aws-lambda";
-import { initializeDatabase } from "./db";
+import { initializeDatabase } from "./utils/db";
+import connectDBMongo from "./utils/dbMongo";
 import {z} from 'zod';
 import { DataSource } from "typeorm";
 
 export const handler = async (event: APIGatewayEvent) => {
   try {
     let secretdb = process.env.SECRETDB? process.env.SECRETDB: "";
+    let secretdbmongo = process.env.SECRETDBMONGO? process.env.SECRETDBMONGO: "";
     //console.log("event", event);
     //get param in event
     //ejemplo de validacion de objeto de la request mediante zod
@@ -17,7 +19,7 @@ export const handler = async (event: APIGatewayEvent) => {
     let response = {
       estado:"OK"
     };
-    
+    const conexionMongo = await connectDBMongo(secretdbMongo);
     conexiondb = await initializeDatabase(secretdb,conexiondb!);
     //example error
     //throw new HttpError(400,"No se encontro la atencion");
