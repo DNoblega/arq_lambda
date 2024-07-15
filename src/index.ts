@@ -19,7 +19,7 @@ export const handler = async (event: APIGatewayEvent) => {
     let response = {
       estado:"OK"
     };
-    const conexionMongo = await connectDBMongo(secretdbMongo);
+    const conexionMongo = await connectDBMongo(secretdbmongo);
     conexiondb = await initializeDatabase(secretdb,conexiondb!);
     //example error
     //throw new HttpError(400,"No se encontro la atencion");
